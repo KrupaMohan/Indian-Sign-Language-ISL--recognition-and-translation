@@ -3,7 +3,6 @@
 ![ISL Recognition](https://img.shields.io/badge/ISL-Recognition-blue)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An end-to-end system for recognizing and translating Indian Sign Language (ISL) gestures into text and speech. This project utilizes computer vision and deep learning to bridge the communication gap between the hearing-impaired community and the general public.
 
@@ -115,19 +114,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - Special thanks to all the open-source contributors and researchers in the field of computer vision and sign language recognition.
 - This project was inspired by the need for better communication tools for the hearing-impaired community in India.
-
-## 📬 Contact
-
-For any queries or suggestions, please feel free to reach out:
-
-- Email: [Your Email]
-- GitHub: [@KrupaMohan](https://github.com/KrupaMohan)
-- Project Link: [https://github.com/KrupaMohan/Indian-Sign-Language-ISL--recognition-and-translation](https://github.com/KrupaMohan/Indian-Sign-Language-ISL--recognition-and-translation)
