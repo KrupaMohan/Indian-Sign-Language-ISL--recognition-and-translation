@@ -6,7 +6,7 @@
 
 An end-to-end system for recognizing and translating Indian Sign Language (ISL) gestures into text and speech. This project utilizes computer vision and deep learning to bridge the communication gap between the hearing-impaired community and the general public.
 
-## ✨ Features
+## Features
 
 - **Real-time ISL Recognition**: Detect and classify hand gestures using your webcam
 - **Text-to-ISL Translation**: Convert written text into corresponding ISL gestures
@@ -14,7 +14,7 @@ An end-to-end system for recognizing and translating Indian Sign Language (ISL) 
 - **Interactive Web Interface**: User-friendly interface for easy interaction
 - **Model Training**: Tools to train and improve the recognition model
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -39,7 +39,7 @@ An end-to-end system for recognizing and translating Indian Sign Language (ISL) 
    - The pre-trained model (`model.h5`) and data files (`X_train.npy`, `y_train.npy`) are included in the repository
    - For custom training, place your dataset in the `data` directory with subdirectories for each letter (A-Z)
 
-## 🖥️ Usage
+## Usage
 
 ### Web Application
 Run the Flask web application:
@@ -66,7 +66,7 @@ Convert speech to ISL gestures (requires microphone):
 python speech_to_isl.py
 ```
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 ├── app.py                 # Main Flask application
@@ -87,7 +87,7 @@ python speech_to_isl.py
 └── variables.py          # Global variables and configurations
 ```
 
-## 🧠 Model Architecture
+## Model Architecture
 
 The recognition model uses a Convolutional Neural Network (CNN) with the following architecture:
 
@@ -96,7 +96,7 @@ The recognition model uses a Convolutional Neural Network (CNN) with the followi
 3. Dense Layers with Dropout for regularization
 4. Output Layer with Softmax activation for classification
 
-## 📊 Performance
+## Performance
 
 The model achieves the following performance metrics:
 
@@ -104,7 +104,7 @@ The model achieves the following performance metrics:
 - Validation Accuracy: ~95%
 - Test Accuracy: ~94%
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -114,7 +114,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Special thanks to all the open-source contributors and researchers in the field of computer vision and sign language recognition.
 - This project was inspired by the need for better communication tools for the hearing-impaired community in India.
