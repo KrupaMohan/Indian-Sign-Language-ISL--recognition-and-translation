@@ -1,0 +1,10 @@
+Keras
+matplotlib
+numpy
+opencv-python
+pyttsx3
+PyYAML
+scipy
+six
+tensorflow
+

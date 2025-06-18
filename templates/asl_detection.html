@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISL Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F7F9FB;
+            min-height: 100vh;
+            color: #687864;
+        }
+        .navbar {
+            background-color: #31708E;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+        .navbar-light .navbar-brand,
+        .navbar-light .nav-link {
+            color: #fff !important;
+        }
+        .navbar-light .navbar-toggler {
+            border-color: rgba(255,255,255,0.5);
+        }
+        .navbar-light .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(49,112,142,0.08);
+            background-color: #fff;
+        }
+        .btn-primary {
+            background-color: #31708E;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .btn-primary:hover {
+            background-color: #5085A5;
+        }
+        .btn-secondary {
+            background-color: #687864;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .btn-secondary:hover {
+            background-color: #8FC1E3;
+            color: #31708E;
+        }
+        .section-title {
+            color: #31708E;
+            margin-bottom: 2rem;
+        }
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+        }
+        .progress-bar {
+            background-color: #5085A5;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        /* New CSS for camera view centering */
+        #video-feed {
+            width: 100%;
+            max-width: 640px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+        .position-relative {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .mb-4.position-relative {
+            margin: 0 auto;
+            max-width: 640px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">ISL Detection</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/isl_detection">ISL Detection</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/speech_to_isl">Speech to ISL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/text_to_isl">Text to ISL</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ISL Detection Section -->
+    <section class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="section-title text-center">Real-Time ISL Detection</h2>
+                        <div id="camera-controls" class="mb-4 text-center">
+                            <button id="start-btn" class="btn btn-primary" onclick="startCamera()">Start Camera</button>
+                        </div>
+                        <div id="detection-section" style="display:none;">
+                            <div class="mb-4 position-relative">
+                                <img src="{{ url_for('video_feed') }}" class="img-fluid rounded border" id="video-feed">
+                                <span class="position-absolute top-0 start-50 translate-middle-x bg-dark text-white px-3 py-1 rounded" style="opacity:0.85;">Hold ISL sign for 2s to add to word. Use 'N' for next, 'B' for back.</span>
+                            </div>
+                            <div class="mb-3">
+                                <p id="prediction" class="h5 text-center fade-in"></p>
+                            </div>
+                            <div class="mb-3">
+                                <div class="progress">
+                                    <div id="confidence-bar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <p id="confidence-text" class="text-center mt-2 small">Confidence: 0%</p>
+                            </div>
+                            <div class="mb-3 text-center">
+                                <!-- <p id="formed-word" class="h5 mb-2 fade-in">Word: None</p> -->
+                                <div class="d-flex flex-wrap justify-content-center gap-2">
+                                    <!-- <button onclick="clearWord()" class="btn btn-secondary">Clear Word</button> -->
+                                    <button id="stop-btn" onclick="stopCamera()" class="btn btn-primary">Stop Camera</button>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <h3 class="h6 text-center mb-3">Prediction History</h3>
+                                <ul id="history-list" class="list-unstyled text-center"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let cameraStarted = false;
+        let updateInterval = null;
+        function startCamera() {
+            document.getElementById('video-feed').src = '/video_feed';
+            document.getElementById('detection-section').style.display = '';
+            document.getElementById('camera-controls').style.display = 'none';
+            cameraStarted = true;
+            updateInterval = setInterval(updatePrediction, 5000);
+        }
+        function stopCamera() {
+            fetch('/stop_camera').then(() => {
+                document.getElementById('video-feed').src = '';
+                document.getElementById('prediction').textContent = 'Prediction: None';
+                document.getElementById('confidence-bar').style.width = '0%';
+                document.getElementById('confidence-text').textContent = 'Confidence: 0%';
+                document.getElementById('detection-section').style.display = 'none';
+                document.getElementById('camera-controls').style.display = '';
+                cameraStarted = false;
+                if (updateInterval) clearInterval(updateInterval);
+            });
+        }
+        function clearWord() {
+            fetch('/clear_word', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        document.getElementById('formed-word').textContent = 'Word: None';
+                        lastWord = '';
+                    }
+                });
+        }
+        let lastWord = '';
+        function updatePrediction() {
+            fetch('/get_prediction')
+                .then(response => response.json())
+                .then(data => {
+                    const predictionEl = document.getElementById('prediction');
+                    predictionEl.textContent = data.current;
+                    predictionEl.classList.remove('fade-in');
+                    void predictionEl.offsetWidth;
+                    predictionEl.classList.add('fade-in');
+
+                    const confidenceBar = document.getElementById('confidence-bar');
+                    const confidenceText = document.getElementById('confidence-text');
+                    const confidence = data.confidence;
+                    confidenceBar.style.width = `${confidence}%`;
+                    confidenceText.textContent = `Confidence: ${confidence.toFixed(1)}%`;
+
+                    const historyList = document.getElementById('history-list');
+                    historyList.innerHTML = data.history.length ? 
+                        data.history.map(item => `<li class="fade-in">${item}</li>`).join('') : 
+                        '<li>No predictions yet</li>';
+
+                    const wordEl = document.getElementById('formed-word');
+                    wordEl.textContent = `Word: ${data.word || 'None'}`;
+                    wordEl.classList.remove('fade-in');
+                    void wordEl.offsetWidth;
+                    wordEl.classList.add('fade-in');
+
+                    lastWord = data.word || '';
+                });
+        }
+    </script>
+</body>
+</html>
